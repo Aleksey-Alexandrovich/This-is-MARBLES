@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 (() => {
   const lang = ["камень", "ножницы", "бумага"];
@@ -38,34 +38,22 @@
     const userChoise = findAnswer(lang, answer.toLowerCase());
 
     if (answer && userChoise) {
-      console.log(`Вы:`, userChoise);
       if (userChoise === computerChoise) {
-        alert(`Компьютер: ${computerChoise}
-Вы: ${userChoise}
-Ничья!`);
+        alert(`Компьютер: ${computerChoise} Вы: ${userChoise} Ничья!`);
         return game();
       } else if (
-        (computerChoise === lang[0] && userChoise === lang[2]) ||
-        (computerChoise === lang[1] && userChoise === lang[0]) ||
-        (computerChoise === lang[2] && userChoise === lang[1])
+        (userChoise === lang[2] && computerChoise === lang[0]) ||
+        (userChoise === lang[0] && computerChoise === lang[1]) ||
+        (userChoise === lang[1] && computerChoise === lang[2])
       ) {
-        alert(`Компьютер: ${computerChoise}.
-Вы: ${userChoise}.
-Вы ходите!`);
+        alert(`Компьютер: ${computerChoise}. Вы: ${userChoise}.Вы ходите!`);
         console.log(result.player);
         res = "player";
-      } else if (
-        (computerChoise === lang[0] && userChoise === lang[1]) ||
-        (computerChoise === lang[1] && userChoise === lang[2]) ||
-        (computerChoise === lang[2] && userChoise === lang[0])
-      ) {
-        alert(`Компьютер: ${computerChoise}.
-Вы: ${userChoise}.
-Компьютер ходит!`);
-        res = "computer";
-      }
-    } else {
-      return game();
+      }  else {
+				alert (`Компьютер:${computerChoise}. Вы: ${userChoise}. Компьютер ходит!`);
+				res = "computer";
+				return game();
+			}
     }
 
     return function start() {
@@ -139,11 +127,7 @@
               result.computer -= computerChoise;*/
               alert(`Вы выйграли! У Вас ${result.player} шариков`);
             } else {
-            if ((result.player - computerChoise) < 0) {result.player = 0} else {result.player -= +computerChoise};
-            if ((result.computer + computerChoise) > 10) {result.computer = 10} else {result.computer += +computerChoise;};
-            /* result.player -= computerChoise;
-            result.computer += computerChoise;*/
-            alert(`Вы проиграли! У Вас осталось ${result.player} шариков`);
+        		    alert(`Вы проиграли! У Вас осталось ${result.player} шариков`);
           }
           console.log(`Шарики игрока: ${result.player}`);
           console.log(`Шарики компьютера: ${result.computer}`);
