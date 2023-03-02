@@ -1,14 +1,11 @@
 
-'use strict';
-
+"use strict";
 
 let startGame = window.MRBLS();
-if (startGame) startGame();
+startGame();
 
 do {
   if (confirm('Ещё поиграем?')) {
-    startGame = window.MRBLS();
-
-    if (startGame) startGame();
+    startGame();
   } else break;
 } while (true);

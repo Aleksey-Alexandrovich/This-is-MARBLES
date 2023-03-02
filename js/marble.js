@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const lang = ["камень", "ножницы", "бумага"];
+  const tools = ["камень", "ножницы", "бумага"];
   const evenOrOdd = ["четное", "нечетное"];
 
   const getRandomIntInclusive = (min, max) => {
@@ -20,82 +20,94 @@
   };
 
   const game = () => {
-    let res = 0;
+    let res = "";
+		console.log(res);
     const result = {
       player: 5,
       computer: 5,
     };
 
-    const computerChoise = lang[getRandomIntInclusive(0, 2)];
+    const computerChoise = tools[getRandomIntInclusive(0, 2)];
+		
     console.log(`Компьютер:`, computerChoise);
 
-    const answer = prompt(`Выбери: "${lang.join('", "')}" ?`);
+    const answer = prompt(`Выбери: "${tools.join('", "')}" ?`);
 
     if (answer === null) {
       return;
     }
 
-    const userChoise = findAnswer(lang, answer.toLowerCase());
+    const userChoise = findAnswer(tools, answer.toLowerCase());
 
     if (answer && userChoise) {
+      console.log(`Вы:`, userChoise);
       if (userChoise === computerChoise) {
         alert(`Компьютер: ${computerChoise} Вы: ${userChoise} Ничья!`);
         return game();
-      } else if (
-        (userChoise === lang[2] && computerChoise === lang[0]) ||
-        (userChoise === lang[0] && computerChoise === lang[1]) ||
-        (userChoise === lang[1] && computerChoise === lang[2])
+      }
+			if (
+        (userChoise === tools[2] && computerChoise === tools[0]) ||
+        (userChoise === tools[0] && computerChoise === tools[1]) ||
+        (userChoise === tools[1] && computerChoise === tools[2])
       ) {
-        alert(`Компьютер: ${computerChoise}. Вы: ${userChoise}.Вы ходите!`);
+        alert(`Компьютер: ${computerChoise}.Вы: ${userChoise}.Вы ходите!`);
         console.log(result.player);
         res = "player";
-      }  else {
-				alert (`Компьютер:${computerChoise}. Вы: ${userChoise}. Компьютер ходит!`);
-				res = "computer";
-				return game();
-			}
-    }
+				console.log(res)
+      } 
+			if (
+        (computerChoise === tools[0] && userChoise === tools[1]) ||
+        (computerChoise === tools[1] && userChoise === tools[2]) ||
+        (computerChoise === tools[2] && userChoise === tools[0])
+      ) {
+        alert(`Компьютер: ${computerChoise}.Вы: ${userChoise}.Компьютер ходит!`);
+        res = "computer";
+				console.log(res)
+		
+      }
+    } else {
+      return game();
+    };
 
     return function start() {
       const isNumber = (n) =>
         !isNaN(parseFloat(n)) && isFinite(n) && n <= result.player && n > 0;
 
       if (result.player <= 0 || result.computer <= 0) {
-        alert(`Игра закончилась!
-У Вас: ${result.player}
-У компьютера: ${result.computer}`);
+        alert(`Игра закончилась! У Вас: ${result.player} У компьютера: ${result.computer}`);
         return;
       }
 
       // Игрок загадывает число
       if (res === "player") {
-        let userChoise;
-        const computerChoise = Math.floor(1 + Math.random() * 2);
-        console.log(`Компьютер выбирает четность:`, computerChoise);
+        let userWay;
+        const computerWay = Math.floor(Math.random() * 2) + 1;
+        console.log(`Компьютер выбирает четность:`, computerWay);
 
-        while (!isNumber(userChoise)) {
-          userChoise = prompt(
+        while (!isNumber(userWay)) {
+          userWay = prompt(
             `Сколько шариков из ${result.player} Вы хотите разыграть?`
           );
-          if (userChoise === null) {
+          if (userWay === null) {
             alert("Игра окончена!");
             return;
           }
         }
         if (
-          (userChoise % 2 === 0 && computerChoise === 2) ||
-          (!(userChoise % 2 === 0) && computerChoise === 1)
-        ) {
-          if ((result.player - +userChoise) < 0) {result.player = 0} else {result.player -= +userChoise};
-          if ((result.computer + +userChoise) > 10) {result.computer = 10} else {result.computer += +userChoise};
-          /* result.player -= +userChoise;
-          result.computer += +userChoise;*/
+          (userWay % 2 === 0 && computerWay === 2) ||
+          (!(userWay % 2 === 0) && computerWay === 1)
+        ) 
+				{
+          if ((result.player - +userWay) < 0) {result.player = 0} else {result.player -= +userWay};
+          if ((result.computer + +userWay) > 10) {result.computer = 10} else {result.computer += +userWay};
+  
           alert(`Вы проиграли! У Вас осталось ${result.player} шариков`);
-        } else {
-          if ((result.computer - +userChoise) < 0) {result.computer = 0} else {result.computer -= +userChoise};
-          if ((result.player + +userChoise) > 10) {result.player = 10} else {result.player += +userChoise;};
-         /* result.player += +userChoise;
-          result.computer -= +userChoise;*/
+        } 
+				
+				{
+          if ((result.computer - +userWay) < 0) {result.computer = 0} else {result.computer -= +userWay};
+          if ((result.player + +userWay) > 10) {result.player = 10} else {result.player += +userWay;};
+    
           alert(`Вы выйграли! У Вас ${result.player} шариков`);
         }
         console.log(`Шарики игрока: ${result.player}`);
@@ -104,8 +116,8 @@
 
         // Компьютер загадывает число
       } else {
-        const computerChoise = Math.floor(1 + Math.random() * result.computer);
-        console.log(`Компьютер загадывает число:`, computerChoise);
+				const computerBalls = Math.floor(1 + Math.random() * result.computer);
+        console.log(`Компьютер загадывает число:`, computerBalls);
 
         const answer = prompt("Отгадайте: четное или нечетное?");
 
@@ -114,20 +126,24 @@
           return;
         }
 
-        const userChoise = findAnswer(evenOrOdd, answer.toLowerCase());
+        const userWay = findAnswer(evenOrOdd, answer.toLowerCase());
 
-        if (answer && userChoise) {
+        if (answer && userWay) {
           if (
-            (computerChoise % 2 === 0 && userChoise === evenOrOdd[0]) ||
-            (!(computerChoise % 2 === 0) && userChoise === evenOrOdd[1])
+            (computerBalls % 2 === 0 && userWay === evenOrOdd[0]) ||
+            (!(computerBalls % 2 === 0) && userWay === evenOrOdd[1])
           ) {
-            if ((result.computer - computerChoise) < 0) {result.computer = 0} else {result.computer -= +computerChoise};
-            if ((result.player + computerChoise) > 10) {result.player = 10} else {result.player += +computerChoise};
-            /* result.player += computerChoise;
-              result.computer -= computerChoise;*/
+            if ((result.computer - computerBalls) < 0) {result.computer = 0} else {result.computer -= +computerBalls};
+            if ((result.player + computerBalls) > 10) {result.player = 10} else {result.player += +computerBalls};
+            /* result.player += computerWay;
+              result.computer -= computerWay;*/
               alert(`Вы выйграли! У Вас ${result.player} шариков`);
             } else {
-        		    alert(`Вы проиграли! У Вас осталось ${result.player} шариков`);
+            if ((result.player - computerBalls) < 0) {result.player = 0} else {result.player -= +computerBalls};
+            if ((result.computer + computerBalls) > 10) {result.computer = 10} else {result.computer += +computerBalls;};
+            /* result.player -= computerWay;
+            result.computer += computerWay;*/
+            alert(`Вы проиграли! У Вас осталось ${result.player} шариков`);
           }
           console.log(`Шарики игрока: ${result.player}`);
           console.log(`Шарики компьютера: ${result.computer}`);
@@ -143,3 +159,4 @@
 
   window.MRBLS = game;
 })();
+
